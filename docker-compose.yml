@@ -10,13 +10,14 @@ services:
       - CHROMEDRIVER_BIN=/usr/bin/chromedriver
     volumes:
       - ./out:/app/out
+    ports:
+      - "8000:8000"   # (선택) 디버깅용. 굳이 필요 없으면 빼도 됨.
 
   caddy:
     image: caddy:2
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80"       # ✅ IP 접속은 http:80만
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
