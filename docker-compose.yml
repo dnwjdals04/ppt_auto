@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    image: thepureum-ppt:latest
+    restart: unless-stopped
+    shm_size: "1gb"
+    environment:
+      - PORT=8000
+      - CHROME_BIN=/usr/bin/chromium
+      - CHROMEDRIVER_BIN=/usr/bin/chromedriver
+    volumes:
+      - ./out:/app/out
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:

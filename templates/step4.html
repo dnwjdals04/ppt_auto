@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Step 4</title></head>
+<body>
+  <h2>Step 4) PPT 생성</h2>
+  <button onclick="makePpt()">PPT 생성(다운로드)</button>
+  <button onclick="location.href='/step/3?plan_id={{plan_id}}'">Step3로</button>
+
+  <script>
+  function yyyymmdd(){
+    const d = new Date();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${d.getFullYear()}${mm}${dd}`;
+  }
+
+  async function makePpt(){
+    const res = await fetch(`/api/ppt/${encodeURIComponent("{{plan_id}}")}/generate`, {method:"POST"});
+    if(!res.ok){
+      const txt = await res.text();
+      alert("생성 실패: " + txt);
+      return;
+    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `thepureum_${yyyymmdd()}.pptx`; // ✅ 원하는 다운로드 이름
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  </script>
+</body>
+</html>

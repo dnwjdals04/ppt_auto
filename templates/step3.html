@@ -1,0 +1,38 @@
+<!-- templates/step3.html -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Step 3</title></head>
+<body>
+  <h2>Step 3) 가사 확인/수정</h2>
+  <h3> 가사는 2줄 단위로 ppt에 작성됩니다</h3>
+  <h3> 빈 줄은 슬라이드 구분용으로 사용됩니다</h3>
+
+  <form method="post" action="/api/plan/{{plan_id}}/songs/lyrics">
+    <h3>찬양</h3>
+    {% for s in plan.songs.praise %}
+      <div style="margin-bottom:14px; padding:10px; border:1px solid #ddd;">
+        <b>찬양 {{loop.index}}: {{s.title}}{% if s.artist %} - {{s.artist}}{% endif %}</b><br/>
+        <textarea name="lyrics_praise_{{loop.index0}}" rows="10" style="width:100%">{{s.lyrics}}</textarea>
+      </div>
+    {% endfor %}
+
+    {% if plan.songs.offering %}
+      <h3>헌금송</h3>
+      <div style="margin-bottom:14px; padding:10px; border:1px solid #ddd;">
+        <b>{{plan.songs.offering.title}}{% if plan.songs.offering.artist %} - {{plan.songs.offering.artist}}{% endif %}</b><br/>
+        <textarea name="lyrics_offering" rows="10" style="width:100%">{{plan.songs.offering.lyrics}}</textarea>
+      </div>
+    {% endif %}
+
+    {% if plan.songs.closing %}
+      <h3>설후찬</h3>
+      <div style="margin-bottom:14px; padding:10px; border:1px solid #ddd;">
+        <b>{{plan.songs.closing.title}}{% if plan.songs.closing.artist %} - {{plan.songs.closing.artist}}{% endif %}</b><br/>
+        <textarea name="lyrics_closing" rows="10" style="width:100%">{{plan.songs.closing.lyrics}}</textarea>
+      </div>
+    {% endif %}
+
+    <button type="submit">다음</button>
+  </form>
+</body>
+</html>

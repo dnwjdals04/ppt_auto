@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Step 1</title></head>
+<body>
+  <h2>Step 1) 기본 정보</h2>
+
+  <form method="post" action="/api/plan/init">
+    <div>
+      <label>찬양 곡 수 (1~20)</label><br/>
+      <select name="praise_count" required>
+        {% for n in range(1, 21) %}
+          <option value="{{n}}" {% if n==3 %}selected{% endif %}>{{n}}곡</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div style="margin-top:12px;">
+      <label>기도 문구</label><br/>
+      <input name="prayer" value="기도 | " style="width:420px;" />
+    </div>
+
+    <div style="margin-top:12px;">
+      <label>설교 제목</label><br/>
+      <input name="sermon_title" style="width:420px;" required />
+    </div>
+
+    <div style="margin-top:12px;">
+      <label>본문(여러 줄 가능)</label><br/>
+      <textarea name="sermon_phrases_raw" rows="5" cols="60"
+        placeholder="예) 갈라디아서 1장 6-10절&#10;갈라디아서 3장 1-13절"></textarea>
+    </div>
+
+    <div style="margin-top:12px;">
+      <label><input type="checkbox" name="include_offering" value="1" checked> 헌금송 포함</label><br/>
+      <label><input type="checkbox" name="include_closing" value="1" checked> 설후찬 포함</label>
+      <input type="hidden" name="include_offering" value="0">
+      <input type="hidden" name="include_closing" value="0">
+    </div>
+
+    <div style="margin-top:16px;">
+      <button type="submit">다음(곡 입력)</button>
+    </div>
+  </form>
+</body>
+</html>
